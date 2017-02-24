@@ -15,3 +15,8 @@ same new people are the ones least equipped to cope with or understand the
 problem or where it comes from."
 
   - Christopher Allen
+
+How?
+
+Install [Stack](http://haskellstack.org)
+Quickstart Unix: `curl -sSL https://get.haskellstack.org/ | sh`
