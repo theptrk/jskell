@@ -20,3 +20,4 @@ How?
 
 Install [Stack](http://haskellstack.org)
 Quickstart Unix: `curl -sSL https://get.haskellstack.org/ | sh`
+You may need: `stack setup`
