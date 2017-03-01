@@ -1,12 +1,48 @@
 // Every function in Haskell officially only takes one parameter.
-// One argument function applications to a function that requires
+// In haskell functions may be defined as taking more than one argument
+// but when the first argument is applied, this returns a partially applied
+// function. The second argument being applied may also return a partially
+// applied function until the value is returned
 // >1 arguments returns a curried function!
+
+#What is a partially applied function?
+
+Say a function takes two arguments, a city and a travel tip;
+```javascript
+node> var traveltips = (city, tip) => city + " " + tip;
+```
+```haskell
+ghci> traveltips city tip = city ++ " " ++ tip;
+```
+- we can fully apply the functions like so
+```javascript
+node> traveltips("taipei", "soy milk king has the best soy milk")
+> "taipei soy milk king has the best soy milk"
+```
+```haskell
+ghci> traveltips "taipei" "soy milk king has the best soy milk"
+> "taipei soy milk king has the best soy milk"
+```
+
 
 ```haskell
 ghci> max 4 5
--- 5
+> 5
+-- is the same as 
 ghci> (max 4) 5
--- 5
+> 5
+-- 1. always partiallay applied functions
+-- 2.  2. left associative function application
+
+-- this makes it very easy to create a partially applied function
+ghci> maxOf4OrSomethingElse = max 4
+ghci> maxOf4OrSomethingElse 5
+> 5
+
+> :t max
+> max :: Ord a => a -> a -> a
+-- the above can be thought of as
+> max :: Ord a => a -> (a -> a)
 ```
 
 -- Take a look at this function that takes 3 parameters
