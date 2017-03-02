@@ -23,4 +23,4 @@ var maximum = function(list) {
     }
     return Math.max(x, maximum(xs));
 };
-
+```
