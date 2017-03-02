@@ -6,15 +6,14 @@
 // >1 arguments returns a curried function!
 
 #What is a partially applied function?
-
-Say a function takes two arguments, a city and a travel tip;
+- Say a function takes two arguments, a city and a travel tip;
 ```javascript
 node> var traveltips = (city, tip) => city + " " + tip;
 ```
 ```haskell
 ghci> traveltips city tip = city ++ " " ++ tip;
 ```
-- we can fully apply the functions like so
+- We can fully apply the functions like so
 ```javascript
 node> traveltips("taipei", "soy milk king has the best soy milk")
 > "taipei soy milk king has the best soy milk"
@@ -23,12 +22,26 @@ node> traveltips("taipei", "soy milk king has the best soy milk")
 ghci> traveltips "taipei" "soy milk king has the best soy milk"
 > "taipei soy milk king has the best soy milk"
 ```
+- But what if we want to apply less than all arguments?
+- lets bind only one argument
+```javascript
+node> var travelTipsAboutTaipei = traveltips.bind(null, "taipei")
+// this function now has "taipei" bound as the `city` parameter
+node> travelTipsAboutTaipei("has incredible shaved ice")
+> "taipei has incredible shaved ice"
+```
+```haskell
+ghci> travelTipsAboutTaipei = traveltips "taipei"
+ghci> travelTipsAboutTaipei("has incredible shaved ice")
+-- this function now has "taipei" bound as the `city` parameter
+> "taipei has incredible shaved ice"
+```
 
 
 ```haskell
 ghci> max 4 5
 > 5
--- is the same as 
+-- is the same as
 ghci> (max 4) 5
 > 5
 -- 1. always partiallay applied functions
