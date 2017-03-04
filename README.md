@@ -13,7 +13,7 @@ As a new user you *will* run into package version conflicts that are way beyond 
 > for new people when the globally installed packages get old. These very
 > same new people are the ones least equipped to cope with or understand the
 > problem or where it comes from."
-> - Christopher Allen
+> `-` Christopher Allen
 
 __How?__
 
