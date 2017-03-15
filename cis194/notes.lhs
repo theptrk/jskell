@@ -121,10 +121,11 @@ other types
 > data BookReview = BookReview BookInfo CustomerId ReviewBody
 
 -- we can pattern match to extract values we need
-> bookReviewCustomerId (BookReview bookInfo customerId reviewBody) = customerId
-> bookReviewReviewBody (BookReview bookInfo customerId reviewBody) = reviewBody
+> bookReviewCustomerId (BookReview bookInfo' custId' reviewBody') = custId'
+> bookReviewReviewBody (BookReview bookInfo' custId' reviewBody') = reviewBody'
 > :type bookReviewCustomerId
 -> bookReviewCustomerId :: BookReview -> CustomerId
+-- we pattern matched and specified which value to extract from `BookReview`
 -- * (==) can only be used on the same types
 
 
