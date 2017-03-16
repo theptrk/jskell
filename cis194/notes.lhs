@@ -128,4 +128,14 @@ other types
 -- we pattern matched and specified which value to extract from `BookReview`
 -- * (==) can only be used on the same types
 
+-- Maybe is super useful for safety
+> data Maybe a = Nothing | Just a
 
+-- this crashes on an empty list
+> head []
+
+-- this never crashes
+-- it gets the value from the Maybe or returns Nothing on an empty list
+> safeHead :: [a] -> Maybe a
+> safeHead [] = Nothing
+> safeHead (x:_) = Just x
