@@ -1,3 +1,7 @@
+-- GOTCHAS
+-- if requires a Boolean in Haskell; not just a truthy or falsey value
+-- everything is an expression 
+--
 -- quicksort.js
 -- const quicksort = function(arr) {
 --   if (arr.length === 0) {

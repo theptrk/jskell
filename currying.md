@@ -5,8 +5,8 @@
 // applied function until the value is returned
 // >1 arguments returns a curried function!
 
-#What is a partially applied function?
-- Say a function takes two arguments, a city and a travel tip;
+# What is a partially applied function?
+- Say a function takes two arguments and returns a combined string
 ```javascript
 node> var traveltips = (city, tip) => city + " " + tip;
 ```
@@ -15,26 +15,37 @@ ghci> traveltips city tip = city ++ " " ++ tip;
 ```
 - We can fully apply the functions like so
 ```javascript
+// javascript applies functions with wrapping parenthesis
+
 node> traveltips("taipei", "soy milk king has the best soy milk")
-> "taipei soy milk king has the best soy milk"
+"taipei soy milk king has the best soy milk"
 ```
 ```haskell
+-- haskell applies function with a space
+
 ghci> traveltips "taipei" "soy milk king has the best soy milk"
-> "taipei soy milk king has the best soy milk"
+"taipei soy milk king has the best soy milk"
 ```
 - But what if we want to apply less than all arguments?
-- lets bind only one argument
+- lets partially apply only one argument
 ```javascript
+// lets `partially apply` `taipei`as the first argument `city` with `bind`
 node> var travelTipsAboutTaipei = traveltips.bind(null, "taipei")
-// this function now has "taipei" bound as the `city` parameter
+
+// now we can call our new function with just an argument for `tip`
 node> travelTipsAboutTaipei("has incredible shaved ice")
-> "taipei has incredible shaved ice"
+"taipei has incredible shaved ice"
 ```
 ```haskell
+-- haskell applies one argument at a time anyway!
 ghci> travelTipsAboutTaipei = traveltips "taipei"
+
+-- each partial application in haskell returns a function
 ghci> travelTipsAboutTaipei("has incredible shaved ice")
--- this function now has "taipei" bound as the `city` parameter
-> "taipei has incredible shaved ice"
+"taipei has incredible shaved ice"
+
+ghci> :t travelTipsAboutTaipei
+travelTipsAboutTaipei
 ```
 
 

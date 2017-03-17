@@ -118,15 +118,47 @@ other types
 -- type synonyms are used to make code more readable
 > type CustomerId = Int
 > type ReviewBody = String
+-- we can use these type synonyms as datatypes in our definition
 > data BookReview = BookReview BookInfo CustomerId ReviewBody
 
--- we can pattern match to extract values we need
+-- check the type of BookReview; per convention the value and type constructor
+-- convention: the value and type constructor have the same name
+> BookReview :: BookInfo -> CustomerId -> ReviewBody -> BookReview
+
+-- we can pattern match in functions to extract values we need
 > bookReviewCustomerId (BookReview bookInfo' custId' reviewBody') = custId'
 > bookReviewReviewBody (BookReview bookInfo' custId' reviewBody') = reviewBody'
+
 > :type bookReviewCustomerId
 -> bookReviewCustomerId :: BookReview -> CustomerId
+-- this function returns the CustomerId of the passed in BookReview argument
 -- we pattern matched and specified which value to extract from `BookReview`
--- * (==) can only be used on the same types
+
+-- (==) can only be used on the same types
+-- say we have two types Forwards and Backwards
+> data Forwards = Forwards "String" "String" deriving (Eq)
+> data Backwards = Backwards "String" "String" deriving (Eq)
+> a = Forwards "AAA" "ZZZ"
+> b = Backwards "AAA" "ZZZ"
+> a == b
+-- returns a type error
+
+-- Haskell's type on enums
+> data Lights = Red
+>             | Yellow
+>             | Green
+>               deriving (Eq, Show)
+
+> r = Red
+> y = Yellow
+> rr = Red
+> r == y
+-- False
+> r == rr
+-- True
+> Red == Red
+-- True
+
 
 -- Maybe is super useful for safety
 > data Maybe a = Nothing | Just a
