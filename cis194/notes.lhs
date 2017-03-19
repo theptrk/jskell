@@ -56,6 +56,28 @@ elements must be the same type
 > :type null
 > null :: [a] -> Bool
 
+> take 5 $ cycle [1,2,3]
+> [1,2,3,1,2]
+
+> take 10 (repeat 5)
+> [5,5,5,5,5,5,5,5,5,5]
+
+> zip [1,2,3,4,5] ["a", "b", "c"]
+> [(1, "a"), (2, "b"), (3, "c")]
+
+> zip [1..] ["apple", "orange", "cherry", "mango"
+> [(1,"apple"),(2,"orange"),(3,"cherry"),(4,"mango")]
+
+# list comprehensions
+-- [<returnValue> | <operatingValue> <- List, <predicate>]
+
+> [x*2 | x <- [1..10]]
+> [2,4,6,8,10,12,14,16,18,20]
+
+> [x*2 | x <- [1..10], x*2 >= 12]
+> [12,14,16,18,20]
+
+
 # basic Functions:
 -- Single argument
 > doubleMe x = x + x
@@ -143,7 +165,7 @@ other types
 > a == b
 -- returns a type error
 
--- Haskell's type on enums
+-- Haskell's take on enums
 > data Lights = Red
 >             | Yellow
 >             | Green
@@ -163,11 +185,16 @@ other types
 -- Maybe is super useful for safety
 > data Maybe a = Nothing | Just a
 
--- this crashes on an empty list
-> head []
-
+-- this avoids crashes on empty or bad arguments
+> head [] -- crashes
 -- this never crashes
 -- it gets the value from the Maybe or returns Nothing on an empty list
 > safeHead :: [a] -> Maybe a
 > safeHead [] = Nothing
 > safeHead (x:_) = Just x
+
+# ghci tips
+-- load a module
+> :l
+-- reload a module
+> :r

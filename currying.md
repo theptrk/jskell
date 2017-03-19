@@ -32,7 +32,7 @@ ghci> traveltips "taipei" "soy milk king has the best soy milk"
 // lets `partially apply` `taipei`as the first argument `city` with `bind`
 node> var travelTipsAboutTaipei = traveltips.bind(null, "taipei")
 
-// now we can call our new function with just an argument for `tip`
+// now we can call our new function with just the last argument, `tip`
 node> travelTipsAboutTaipei("has incredible shaved ice")
 "taipei has incredible shaved ice"
 ```
@@ -40,12 +40,14 @@ node> travelTipsAboutTaipei("has incredible shaved ice")
 -- haskell applies one argument at a time anyway!
 ghci> travelTipsAboutTaipei = traveltips "taipei"
 
--- each partial application in haskell returns a function
-ghci> travelTipsAboutTaipei("has incredible shaved ice")
-"taipei has incredible shaved ice"
-
+-- when we type check (using :t or :type ) we see that is new function
+-- takes a [Char] and returns a [Char] ([Char] is a String)
 ghci> :t travelTipsAboutTaipei
-travelTipsAboutTaipei
+travelTipsAboutTaipei :: [Char] -> [Char]
+
+-- each partial application in haskell returns a function
+ghci> travelTipsAboutTaipei "has incredible shaved ice"
+"taipei has incredible shaved ice"
 ```
 
 
