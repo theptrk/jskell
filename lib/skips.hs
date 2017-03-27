@@ -13,3 +13,16 @@ skips xs =
       pairCounted = pairToCount xs
       filterByMod list modnum = [x | (x,y) <- pairCounted, mod y modnum == 0]
   in [filterByMod xs y | (_,y) <- pairCounted]
+
+
+-- return subset of [a] in every multiple of n position
+eachnth :: Int -> [a] -> [a]
+eachnth _ [] = []
+eachnth n (x:xs) = x : (eachnth n $ drop (n-1) xs)
+-- this skips the first item create by (x: )
+nth n xs = eachnth n $ drop (n-1) xs
+
+skips2 xs =
+  let indices = zip [1..] xs
+      nth' (n, _) = nth n xs
+  in map nth' indices
