@@ -1,14 +1,3 @@
-GOTCHAS
-if requires a Boolean in Haskell; not just a truthy or falsey value
-everything is an expression
-
-## everything is an expression
--- TODO finish
-(if foo (= x 1) (= x 2))
-or
-(= x (if foo 1 2))
-
-
 ## quicksort
 ```javascript
 // quicksort.js
