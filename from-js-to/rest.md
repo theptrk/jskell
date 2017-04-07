@@ -1,7 +1,25 @@
 # rest operators
 haskell has syntax (:) that allows pattern matching to get
-the tail of a list and ES6 introduces the "rest operator"
+the tail of a list. ES6 introduces the "rest operator"
 to get the tail of an array with `...variablename`
+
+```javascript
+// This is a normal destructoring assignement *without* a rest operator
+var letters = ['x', 'y', 'z'];
+var [x, others] = letters;
+console.log(x);
+// 'x'
+console.log(others);
+// 'y'
+
+// This is destructoring *with* a rest operator
+var letters = ['x', 'y', 'z'];
+var [x, others] = letters;
+console.log(x);
+// 'x'
+console.log(others)
+// ['y', 'z']
+```
 
 ## maximum in haskell
 ```haskell
