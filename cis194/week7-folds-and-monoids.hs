@@ -40,3 +40,35 @@ filter' p = foldr (\x acc -> if p x then x:acc else acc) []
 -- form of a list
 scanl (+) 0 [3,5,2,1]
 -- [0,3,8,10,11]
+
+-- # Monoids
+-- monoid is when you have an associative binary function and a value which
+-- acts as an identity with respect to that function
+class Monoid m where -- m is a concrete type
+  mempty :: m -- mempty is a polymorphic constant
+  mappend :: m -> m -> m
+  mconcat :: [m] -> m
+  mconcat = foldr mappend mempty -- this is the default implementation
+
+-- monoid laws:
+-- if mempty, mappend defaults to other value
+-- 1. mempty `mappend` x = x
+-- 2. x `mappend` mempty = x
+-- 3. (x `mappend` y) `mappend` z = x `mappend` (y `mappend` z) -- (associative)
+
+-- Lists are monoids
+instance Monoid [a] where
+  mempty = []
+  mappend = (++)
+
+mappend [1,2] [3,4]
+-- [1,2,3,4]
+[1,2] `mappend` [3,4] `mappend` [5,6]
+-- [1,2,3,4,5,6]
+[1,2] `mappend` mempty
+-- [1,2]
+--
+-- Because mconcat has a default implementation, we get it for free when we
+-- make something an instance of Monoid, remember it is "foldr mappend mempty"
+mconcat [[1,2], [3,5], [9]]
+-- [1,2,3,5,9]
