@@ -105,18 +105,8 @@ treeDepth' = treeFold(0, (\l _ r -> 1 + max l r))
 flatten' :: Tree a -> [a]
 flatten' = treeFold([], (\l x r -> l ++ [x] ++ r))
 ```
-```javascript
-const treeFlatten = (tree) => {
-  switch(tree.constructor) {
-    case TreeEmpty:
-      return [];
-    case TreeNode:
-      return treeSize(tree.left).concat([tree.value]).concat(treeSize(tree.right));
-    default:
-      return;
-  }
-};
 
+```javascript
 // lets write a treeFold function
 const treeFold = (e, fn, tree) => {
   switch(tree.constructor) {
@@ -133,8 +123,8 @@ const treeFold = (e, fn, tree) => {
   }
 };
 
-const treeSize = treeFold.bind(null, 0, (l, x, r) => 1 + l + r);
+const treeSize = treeFold.bind(null, 0, (l, _, r) => 1 + l + r);
 const treeSum = treeFold.bind(null, 0, (l, x, r) => x + l + r);
-const treeDepth = treeFold.bind(null, 0, (l, x, r) => 1 + Math.max(l, r));
+const treeDepth = treeFold.bind(null, 0, (l, _, r) => 1 + Math.max(l, r));
 const treeFlatten = treeFold.bind(null, [], (l, x, r) => l.concat([x]).concat(r));
 ```
