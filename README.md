@@ -16,6 +16,7 @@ As a new user you *will* run into package version conflicts that are way beyond 
 > `-` Christopher Allen
 
 Install [Stack](http://haskellstack.org)
+
 Quickstart Unix: `curl -sSL https://get.haskellstack.org/ | sh`
 You may need: `stack setup`
 
@@ -30,3 +31,7 @@ to find out what trade offs and incredible benefits are being gained here.
 - TypeScript and Flow are introducing static type checking to a new generation
   of dynamically scripting JavaScript engineers
 
+## Resources
+- [learnhaskell]("https://github.com/bitemyapp/learnhaskell")
+- [Yorgey’s cis194
+  course]("http://www.seas.upenn.edu/~cis194/spring13/lectures.html")
