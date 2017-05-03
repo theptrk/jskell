@@ -72,3 +72,31 @@ mappend [1,2] [3,4]
 -- make something an instance of Monoid, remember it is "foldr mappend mempty"
 mconcat [[1,2], [3,5], [9]]
 -- [1,2,3,5,9]
+
+-- What if we wanted our numbers to be monoids?
+-- multiplication: * is our binary function and the identity value is 0
+-- addition: + is our binary function and the identity value is 0
+--
+-- Product is defined like this
+newtype Product a = Product { getProduct :: a }
+  deriving (Eq, Ord, Read, Show, Bounded)
+
+-- Product a is an instance of Mondoid for all a's that are an instance of Num
+instance Num a => Monoid (Product a) where
+  -- empty is 1 wrapped in a Product constructor
+  mempty = Product 1
+  -- mappend pattern matches on the Product constructor
+  Product x `mappend` Product y = Product (x * y)
+
+-- to use Product a as a monoid
+getProduct $ Product 3 `mappend` mempty
+getProduct $ Product 3 `mappend` Product 9
+getProduct $ Product 3 `mappend` Product 9 `mappend` Product 2
+
+-- What is "newtype"?
+-- a newtype delcatration creates a new type in much the same way as `data`
+-- however, there is a restriction to one constructor with on field
+-- also, record syntax is still allowed but only for one field
+-- `newtype State s a = State { runState :: s -> (s, a)}`
+-- more info: https://wiki.haskell.org/Newtype
+
