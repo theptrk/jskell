@@ -32,6 +32,6 @@ to find out what trade offs and incredible benefits are being gained here.
   of dynamically scripting JavaScript engineers
 
 ## Resources
-- [learnhaskell]("https://github.com/bitemyapp/learnhaskell")
+- [learnhaskell](https://github.com/bitemyapp/learnhaskell)
 - [Yorgey’s cis194
-  course]("http://www.seas.upenn.edu/~cis194/spring13/lectures.html")
+  course](http://www.seas.upenn.edu/~cis194/spring13/lectures.html)
