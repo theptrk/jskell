@@ -105,6 +105,15 @@ you cannot assign a value to something twice; this errors on compile time
 > x = 11
 
 functions are polymorphic when it has type variables that can be any type
+"a" is a type variable which can stand for any type
+> a -> a -> a
+
+the "caller" of a polymorphic function gets to choose its type
+this does not type check because the "implementer" cannot :
+remember: :i && is Bool -> Bool -> Bool and we have not declared "a" Bool
+> f :: a -> a -> a
+> f x y = x && y
+
 > :type last
 > last :: [a] -> a
 
@@ -193,8 +202,3 @@ other types
 > safeHead [] = Nothing
 > safeHead (x:_) = Just x
 
-# ghci tips
--- load a module
-> :l
--- reload a module
-> :r
