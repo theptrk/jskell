@@ -31,6 +31,11 @@ to find out what trade offs and incredible benefits are being gained here.
 - TypeScript and Flow are introducing static type checking to a new generation
   of dynamically scripting JavaScript engineers
 
+## Functional Programming
+
+Non FP languages are often all about state
+Functional programming is all about values
+
 ## Resources
 - [learnhaskell](https://github.com/bitemyapp/learnhaskell)
 - [Yorgey’s cis194
