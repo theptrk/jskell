@@ -14,7 +14,7 @@ class Monoid m where -- m is a concrete type
 mappend mempty x = x
 mappend x mempty = x
 -- 3. (x `mappend` y) `mappend` z = x `mappend` (y `mappend` z) -- (associative)
-mappend x (mappend y z) = mappend (mappend x y) z
+-- mappend x (mappend y z) = mappend (mappend x y) z
 -- mconcat uses foldr with the mappend function with an mempty starting value
 mconcat = foldr mappend mempty
 
@@ -35,7 +35,6 @@ mappend [1,2] [3,4]
 mconcat [[1,2], [3,5], [9]]
 -- [1,2,3,5,9]
 
-
 -- But what about numbers where our mconcat should maybe multiply, maybe add?
 -- These are only for learning purposes; you can just * or +
 -- use `newtype` to create Product
@@ -47,6 +46,18 @@ instance Num a => Monoid (Product a) where
   mempty = Product 1
   -- pattern matches on the Product constructor
   Product x `mappend` Product y = Product (x * y)
+
+-- vs. cis194
+> newtype Product a = Product a
+>   deriving (Eq, Ord, Num, Show)
+
+> getProduct :: Product a -> a
+> getProduct (Product a) = a
+
+> instance Num a => Monoid (Product a) where
+>   mempty = Product 1
+>   mappend = (*)
+
 
 -- how do we use it?
 getProduct $ Product 3 `mappend` Product 9
@@ -63,6 +74,17 @@ newtype Sum a = Sum { getSum :: a }
 instance Num a => Mondoid (Sum a) where
   mempty = Sum 0
   Sum x `mappend` Sum y = Sum (x + y)
+
+-- vs. cis194; which is better?
+> newtype Sum a = Sum a
+>   deriving (Eq, Ord, Num, Show)
+
+> getSum :: Sum a -> a
+> getSum (Sum a) = a
+
+> instance Num a => Monoid (Sum a) where
+>   mempty = Sum 0
+>   mappend = (+)
 
 getSum . mconcat . map Sum $ [1,2,3]
 -- 6
@@ -139,10 +161,18 @@ instance Monoid a => Monoid (Maybe a) where
   m `mappend` Nothing = m
   Just m1 `mappend` Just m2 = Just (m1 `mappend` m2)
 
+-- `mappend` strings will use the string monoid append
 Nothing `mappend` Just "andy"
 -- Just "andy"
+Just "ter" `mappend` Just "rence"
+-- Just "terrence"
+--
 Just LT `mappend` Nothing
 -- Just LT
+Nothing `mappend` Just LT
+-- Just LT
+--
+-- if you `mappend` two Just a, then you use the `mappend` of a
 Just (Sum 3) `mappend` Just (Sum 4)
 -- Just (Sum {getSum = 7})
 
@@ -150,7 +180,7 @@ Just (Sum 3) `mappend` Just (Sum 4)
 -- failed by seeing if theyre a Nothing or Just value; we can just continue to
 -- treat them as normal monoids
 
-newtype First a = First { getFirst :: Maybe a}
+newtype First a = First { getFirst :: Maybe a }
   deriving (Eq, Ord, Read, Show)
 
 instance Monoid (First a) where
@@ -164,3 +194,53 @@ getFirst $ First Nothing `mappend` First (Just 'b')
 -- Just 'b'
 getFirst . mconcat . map First $ [Nothing, Just 9, Just 10]
 -- Just 9
+
+
+-- One of the more interesting ways to use monoids is to make them help us
+-- define folds over various data structures
+--
+-- Foldable type class from Data.Foldable
+import qualified Foldable as F
+
+:t foldr
+> foldr :: (a -> b -> b) -> b -> [a] -> b
+
+:t F.foldr
+> F.foldr :: (F.Foldable t) => (a -> b -> b) -> b -> t a -> b
+
+-- remember our tree?
+data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
+
+-- two ways to make something an instance of Foldable
+-- 1. directly implement foldr for it
+-- 2. implement the foldMap function
+:i foldMap
+class Foldable (t :: * -> *) where
+  -- ...
+  foldMap :: Monoid m => (a -> m) -> t a -> m
+  -- ...
+    -- Defined in ‘Data.Foldable’
+
+:t foldMap
+> foldMap :: (Monoid m, Foldable t) => (a -> m) -> t a -> m
+-- parameter 1: function that takes value of the type our Foldable contains
+--  and returns a monoid value
+-- parameter 2: foldable structure that contains values of type a
+--
+-- foldMap
+-- 1. maps the function over the foldable structure
+-- 2. produces a foldable structure of monoids
+-- 3. mappends all monoids into a single monoid value
+--
+-- this is how we make Tree an instance of Foldable
+instance F.Foldable Tree where
+  foldMap f Empty = mempty
+  foldMap f (Node x l r) = F.foldMap f l `mappend`
+                           f x           `mappend`
+                           F.foldMap f r
+
+-- note from community: AVOID POPULARITY AT ALL COSTS
+-- example: classes and instances are NOT RELATED to classes and instances in OOP
+-- Taking from Rust:
+  -- typeclasses should be called Traits
+  -- instances should be called Implementations
